@@ -16,7 +16,13 @@
       }
       .button {
         display: block;
-        margin: 0px auto;
+        float: right;
+      }
+      .total {
+        float: left;
+      }
+      .toclear {
+        clear: both;
       }
     </style>
   </head>
@@ -24,32 +30,43 @@
     <script src="rle.js"></script>
     <script>
       window.onload = function () {
-        var encodedText = document.getElementById('encoded_text'),
-            decodedText = document.getElementById('decoded_text');
+        var decodedText = document.getElementById('decoded_text'),
+          encodedText = document.getElementById('encoded_text'),
+          encodedTotal = document.getElementById('encoded_total'),
+          decodedTotal = document.getElementById('decoded_total');
 
             document.getElementById('encode').onclick = function () {
-              encodedText.value && (decodedText.value = rle.encode(encodedText.value));
+              var encoded = decodedText.value && rle.encode(decodedText.value);
+              decodedTotal.innerHTML = decodedText.value.length;
+              encoded && (encodedText.value = encoded) && (encodedTotal.innerHTML = encoded.length);
             };
 
             document.getElementById('decode').onclick = function () {
-              decodedText.value && (encodedText.value = rle.decode(decodedText.value));
+              var decoded = encodedText.value && rle.decode(encodedText.value);
+              encodedTotal.innerHTML = encodedText.value.length;
+              decoded && (decodedText.value = decoded) && (decodedTotal.innerHTML = decoded.length);
             };
       };
     </script>
 
     <h1>Run-length encoder</h1>
     <div>
-      Code at <a href="" target="_blank"></a>
+      <p>More info at <a href="http://blog.dreasgrech.com/2012/03/run-length-encoder-in-javascript.html" target="_blank">http://blog.dreasgrech.com/2012/03/run-length-encoder-in-javascript.html</a></p>
+      <p>Source: <a href="https://github.com/dreasgrech/runlength-js" target="_blank">https://github.com/dreasgrech/runlength-js</a></p>
     </div>
     <div id="main">
       <div class="container">
-        <textarea id="encoded_text" class="box"></textarea>
+        <textarea id="decoded_text" class="box"></textarea>
         <input id="encode" class="button" type="button" value="Encode"/>
+        <span class="total">Characters: <span id="decoded_total"></span></span>
+        <div class="toclear"></div>
       </div>
 
       <div class="container">
-        <textarea id="decoded_text" class="box"></textarea>
+        <textarea id="encoded_text" class="box"></textarea>
         <input id="decode" class="button" type="button" value="Decode"/>
+        <span class="total">Characters: <span id="encoded_total"></span></span>
+        <div class="toclear"></div>
       </div>
     </div>
   </body>
